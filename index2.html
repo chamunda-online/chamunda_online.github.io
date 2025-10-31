@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Chamunda Online — Online Forms & Cyber Services</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+  :root{
+    --bg1: #021124;    /* deep */
+    --bg2: #063a6b;    /* mid */
+    --accent: #00e5ff;
+    --glass: rgba(255,255,255,0.08);
+    --glass-2: rgba(255,255,255,0.06);
+    --muted: rgba(255,255,255,0.75);
+    --card-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    --radius: 14px;
+    --container: 1200px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,var(--bg1) 0%, var(--bg2) 100%);
+    color:#fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* WRAPPER LAYOUT */
+  .wrap{max-width:var(--container); margin:0 auto; padding:20px;}
+
+  /* NAVBAR */
+  .nav{
+    position:sticky; top:8px; z-index:1000; backdrop-filter: blur(8px);
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    margin:12px;
+    border-radius:12px;
+    padding:10px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    box-shadow: var(--card-shadow);
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--muted)}
+  .logo{width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; background:linear-gradient(135deg,#004e92,#000428); box-shadow:0 8px 20px rgba(0,0,0,0.4)}
+  .brand h1{font-size:18px;margin:0}
+  .nav-links{display:flex; gap:10px; align-items:center}
+  .nav-links a{color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:8px; font-weight:600; font-size:14px}
+  .nav-links a:hover{color:white; background:rgba(255,255,255,0.04)}
+  .cta-btn{background:linear-gradient(90deg,#00c6ff,#0066ff); color:#001; border:none; padding:9px 14px; border-radius:10px; font-weight:700; cursor:pointer}
+
+  /* Hamburger */
+  .hamburger{display:none;border:none;background:transparent;color:var(--muted); font-size:20px}
+  @media (max-width:900px){
+    .nav-links{display:none; position:absolute; right:16px; top:64px; flex-direction:column; padding:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:10px}
+    .nav-links.show{display:flex}
+    .hamburger{display:block}
+  }
+
+  /* HERO — big Samsung-like hero */
+  .hero{
+    margin:24px auto 8px;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:28px;
+    align-items:center;
+    padding:36px;
+  }
+  .hero-left h2{font-size:38px; margin:0 0 12px; letter-spacing:-0.6px}
+  .hero-left p.lead{color:rgba(255,255,255,0.85); margin:0 0 18px; font-size:16px}
+
+  /* Hero carousel area — large image/video slides */
+  .hero-carousel{
+    border-radius:18px; overflow:hidden; position:relative; box-shadow:var(--card-shadow);
+    min-height:360px;
+    background:#000;
+  }
+  .slide{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#fff; transition:opacity .9s ease; opacity:0}
+  .slide.active{opacity:1}
+  .slide img{width:100%; height:100%; object-fit:cover}
+  .slide video{width:100%; height:100%; object-fit:cover}
+
+  /* hero small overlay title on slides */
+  .slide-caption{position:absolute; left:36px; bottom:36px; background:linear-gradient(90deg, rgba(0,0,0,0.45), rgba(0,0,0,0.25)); padding:12px 18px; border-radius:10px; max-width:70%}
+  .slide-caption h3{margin:0;font-size:20px}
+  .slide-controls{position:absolute; right:12px; top:12px; display:flex; gap:8px}
+
+  /* GLASS FORM (Latest Active Form) — prominent */
+  .glass-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    padding:20px; border-radius:14px; box-shadow:0 18px 40px rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+  }
+  .glass-card h3{margin:0 0 8px}
+  .glass-form .row{display:flex; gap:10px}
+  .glass-form input, .glass-form select, .glass-form textarea{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:white; outline:none
+  }
+  .glass-form .small{width:48%}
+  .glass-form .btn {background:linear-gradient(90deg,#00c6ff,#0066ff); border:none; padding:11px 14px; border-radius:10px; color:#001; font-weight:700; cursor:pointer}
+
+  /* Services large cards */
+  .services-grid{display:grid; grid-template-columns: repeat(3,1fr); gap:18px; margin-top:18px}
+  .service{background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border-radius:12px; padding:18px; box-shadow:0 12px 30px rgba(0,0,0,0.35); transition:transform .25s; cursor:default}
+  .service:hover{transform:translateY(-6px)}
+  .service i{font-size:22px; display:inline-block; width:48px; height:48px; border-radius:10px; background:linear-gradient(90deg,#00c6ff,#0066ff); color:#001; display:flex; align-items:center; justify-content:center; margin-bottom:10px}
+
+  /* About / Why / Gallery / Testimonials / FAQ */
+  .two-col{display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); padding:18px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+  .gallery-grid{display:grid; grid-template-columns: repeat(4,1fr); gap:10px}
+  .gallery-grid img{width:100%; height:160px; object-fit:cover; border-radius:8px; cursor:pointer}
+
+  .testimonial{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); padding:18px; border-radius:12px}
+  .faq-item{margin-bottom:12px}
+
+  /* CONTACT footer */
+  .contact{display:flex; gap:18px; flex-wrap:wrap; justify-content:space-between}
+  .small-muted{color:rgba(255,255,255,0.75); font-size:14px}
+
+  /* Responsive */
+  @media (max-width:1100px){
+    .hero{grid-template-columns:1fr}
+    .hero-carousel{min-height:320px}
+    .services-grid{grid-template-columns:repeat(2,1fr)}
+    .gallery-grid{grid-template-columns:repeat(2,1fr)}
+    .two-col{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .nav{margin:8px; padding:10px}
+    .brand h1{font-size:15px}
+    .hero-left h2{font-size:26px}
+    .hero-carousel{min-height:220px}
+    .services-grid{grid-template-columns:1fr}
+    .gallery-grid img{height:120px}
+    .glass-form .row{flex-direction:column}
+    .glass-form .small{width:100%}
+  }
+
+  /* subtle animations */
+  .fade-in{animation:fadeIn .9s ease both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)} to{opacity:1; transform:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <a class="brand" href="#home"><div class="logo">CO</div><div><h1>Chamunda Online</h1><div style="font-size:12px;color:var(--muted)">Sabhi Online Seva Ek Jagah</div></div></a>
+
+    <button class="hamburger" id="menuBtn" aria-label="Toggle menu"><i class="fa fa-bars"></i></button>
+
+    <div class="nav-links" id="navLinks" role="menu">
+      <a href="#home">Home</a>
+      <a href="#demo">Latest Form</a>
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <button class="cta-btn" onclick="document.getElementById('demoFormFull')?.scrollIntoView({behavior:'smooth'})">Quik Request</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero fade-in" aria-label="Hero">
+    <!-- left text -->
+    <div class="hero-left">
+      <span style="display:inline-block;background:linear-gradient(90deg,#d1e5eb,#0066ff); color:#001; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px">NEW • Active Form</span>
+      <h2 style="margin-top:12px">Chamunda Online </h2>
+      <p class="lead">Apply for government schemes, get help with Aadhar/PAN, print & scan, book tickets — quick, secure.</p>
+
+      <div style="margin-top:18px; display:flex; gap:12px; flex-wrap:wrap">
+        
+        <a class="nav-links-btn" href="#services" style="background:transparent; border:1px solid rgba(255,255,255,0.06); padding:10px 14px; border-radius:10px; color:var(--muted); text-decoration:none">Our Services</a>
+      </div>
+
+      <div style="margin-top:22px; display:flex; gap:12px; align-items:center; color:var(--muted); font-size:14px">
+        <div><i class="fa fa-phone"></i></div>
+        <div style="margin-left:12px"><i class="fa fa-envelope"></i> <a href="mailto:chamundastaon2022@gmail.com" style="color:var(--accent); text-decoration:none"></a></div>
+      </div>
+    </div>
+
+    <!-- right carousel + form -->
+    <div>
+      <div class="hero-carousel" id="carousel">
+        <!-- Slide 1 image -->
+        <div class="slide active" data-type="img">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=80" alt="Internet access" />
+          <div class="slide-caption">
+            <h3>Fast Internet & Computer Access</h3>
+            <p style="margin:6px 0 0; color:rgba(255,255,255,0.9)">High-speed connectivity for forms and payments.</p>
+          </div>
+        </div>
+
+        <!-- Slide 2 video (muted autoplay loop) -->
+        <div class="slide" data-type="video">
+          <video autoplay muted loop playsinline>
+            <source src="https://player.vimeo.com/external/310340913.sd.mp4?s=3fd0f6d8d50b0f395464aab2b4ac0f3b66f6a8b0&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+            <!-- fallback image -->
+            <img src="https://images.unsplash.com/photo-1581091012184-7f0bde6f5b18?auto=format&fit=crop&w=1600&q=80" alt="video fallback">
+          </video>
+          <div class="slide-caption">
+            <h3>Ticket Booking & Payments</h3>
+            <p style="margin:6px 0 0">Book bus / train tickets — pay securely with support.</p>
+          </div>
+        </div>
+
+        <!-- Slide 3 image -->
+        <div class="slide" data-type="img">
+          <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=1600&q=80" alt="photocopy and printing" />
+          <div class="slide-caption">
+            <h3>Printing, Scanning & Photo Services</h3>
+            <p style="margin:6px 0 0">Passport photos, lamination, resume printing.</p>
+          </div>
+        </div>
+
+        <div class="slide-controls" aria-hidden="true">
+          <button title="prev" id="prevSlide" style="background:transparent;border:none;color:var(--muted);font-size:18px;padding:8px"><i class="fa fa-chevron-left"></i></button>
+          <button title="next" id="nextSlide" style="background:transparent;border:none;color:var(--muted);font-size:18px;padding:8px"><i class="fa fa-chevron-right"></i></button>
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+
+      <!-- small quick form under carousel -->
+      <div class="glass-card fade-in" aria-hidden="false" style="margin-top:12px">
+        <h3 style="margin-bottom:8px">Quick Request</h3>
+        <form id="quickForm" onsubmit="handleQuick(event)" class="glass-form">
+          <div class="row">
+            <input name="qname" placeholder="Full name" required style="flex:1">
+            <input name="qmobile" placeholder="Mobile" required style="flex:1">
+          </div>
+          <div style="margin-top:8px">
+            <select name="qservice" required>
+              <option value="">Select service</option>
+              <option>Form Filling</option>
+              <option>Ticket Booking</option>
+              <option>Print & Scan</option>
+              <option>Govt Yojana Help</option>
+            </select>
+          </div>
+          <div style="margin-top:10px; display:flex; gap:10px">
+            <button class="btn" type="submit" style="flex:1; background:linear-gradient(90deg,#00c6ff,#0066ff); color:#001; border-radius:10px; padding:10px 12px">Request Now</button>
+            <button type="button" onclick="document.getElementById('quickForm').reset()" style="flex:1; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)">Reset</button>
+          </div>
+          <div id="quickMsg" style="display:none; margin-top:8px; color:var(--accent); font-weight:700"></div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LATEST / DEMO FORM (big, central) -->
+  <section id="demo" class="fade-in" style="margin-top:28px; padding:28px 6px;">
+    <div style="max-width:980px; margin:0 auto;">
+      <div style="display:flex; gap:18px; align-items:stretch; flex-wrap:wrap">
+        <div style="flex:1 1 520px; min-width:300px">
+          <div class="card">
+            <h2 style="margin-top:0">Latest Active Form </h2>
+            <p class="small-muted">ગાય આધારિત ખેતી 
+ દર મહિને રૂપિયા 900 ની સહાય
+ફોર્મ શરૂ.
+<ul style="line-height:1.6; padding-left:18px; color:var(--muted)">
+              <li>આધારકાર્ડ</li>
+              <li>બેંક પાસબુક</li>
+              <li>7/12/8અ
+</li>
+              <li>ગાયના કાન પર લગાવેલ કડીનો ટેગ નંબર
+</li>
+            </ul></p>
+
+           
+              
+
+              
+              <div id="demoMsg" style="margin-top:8px; display:none; font-weight:700; color:var(--accent)"></div>
+
+              <!-- EmailJS instructions: replace placeholders in JS below -->
+            </form>
+          </div>
+        </div>
+
+        <div style="width:360px; min-width:240px">
+          <div class="card" style="padding:16px">
+            <h3 style="margin-top:0">Why Apply Here?</h3>
+            <ul style="line-height:1.6; padding-left:18px; color:var(--muted)">
+              <li>Local support — we help with documentation</li>
+              <li>Fast processing assistance</li>
+              <li>Upload documents or get help printing</li>
+              <li>Records are emailed to Chamunda and can be looked up later</li>
+            </ul>
+            <hr style="border:0; height:1px; background:rgba(255,255,255,0.04); margin:12px 0">
+            <p class="small-muted">Tip: fill mobile number carefully — our team will contact you for verification.</p>
+          </div>
+
+          <div style="height:14px"></div>
+
+          <div class="card">
+            <h4 style="margin:0 0 8px">Active Dates</h4>
+            <p style="margin:0; color:var(--muted)">Application period: <strong>8 Sep 2025 — 17 Sep 2025</strong></p>
+            <p style="margin:8px 0 0; color:var(--muted)">Visit Chamunda Online or call for help.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="fade-in" style="padding:28px 6px">
+    <div style="max-width:1100px; margin:0 auto">
+      <h2 style="text-align:center; margin-top:0">Our Services</h2>
+      <p style="text-align:center; color:var(--muted); margin-bottom:18px">Full suite of cyber cafe and digital services for villagers</p>
+
+      <div class="services-grid">
+        <div class="service">
+          <i class="fa fa-edit"></i>
+          <h4>Online Form Filling</h4>
+          <p class="small-muted">Government schemes, exams, admissions, free help by staff.</p>
+        </div>
+        <div class="service">
+          <i class="fa fa-print"></i>
+          <h4>Printing & Scanning</h4>
+          <p class="small-muted">High-quality prints, scanning & PDF conversion.</p>
+        </div>
+        <div class="service">
+          <i class="fa fa-ticket-alt"></i>
+          <h4>Ticket Booking</h4>
+          <p class="small-muted">Bus, train & flight booking; boarding pass printing.</p>
+        </div>
+        <div class="service">
+          <i class="fa fa-id-card"></i>
+          <h4>Aadhaar / PAN / Govt Docs</h4>
+          <p class="small-muted">Assistance with Aadhar, PAN, ration cards, certificates.</p>
+        </div>
+        <div class="service">
+          <i class="fa fa-credit-card"></i>
+          <h4>Payments & Recharges</h4>
+          <p class="small-muted">Electricity, DTH, mobile, UPI and bill payments.</p>
+        </div>
+        <div class="service">
+          <i class="fa fa-camera"></i>
+          <h4>Passport Photos & Photo Editing</h4>
+          <p class="small-muted">ID photos with correct background & cropping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About + Why Choose -->
+  <section id="about" class="fade-in" style="padding:28px 6px;">
+    <div style="max-width:1100px; margin:0 auto">
+      <div class="two-col">
+        <div class="card">
+          <h3>About Chamunda Online</h3>
+          <p class="small-muted">We are a community-first cyber cafe providing end-to-end help for villagers — from form filling to ticket booking.</p>
+          <ul style="padding-left:18px; color:var(--muted)">
+            <li>Local support center since 2019</li>
+            <li>Secure handling of documents</li>
+            <li>Affordable charges and fast turn-around</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Why Choose Us</h3>
+          <div style="display:flex; flex-direction:column; gap:8px">
+            <div style="display:flex; gap:10px; align-items:flex-start"><div style="width:42px; height:42px; border-radius:10px; background:linear-gradient(90deg,#00c6ff,#0066ff); display:flex;align-items:center;justify-content:center;color:#001">1</div><div><strong>Trusted Help</strong><div class="small-muted">We guide and verify every form submission.</div></div></div>
+            <div style="display:flex; gap:10px; align-items:flex-start"><div style="width:42px; height:42px; border-radius:10px; background:linear-gradient(90deg,#00c6ff,#0066ff); display:flex;align-items:center;justify-content:center;color:#001">2</div><div><strong>Fast & Accurate</strong><div class="small-muted">We review documents before submission.</div></div></div>
+            <div style="display:flex; gap:10px; align-items:flex-start"><div style="width:42px; height:42px; border-radius:10px; background:linear-gradient(90deg,#00c6ff,#0066ff); display:flex;align-items:center;justify-content:center;color:#001">3</div><div><strong>Record Keeping</strong><div class="small-muted">We email copies of submissions to requesters.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="fade-in" style="padding:28px 6px">
+    <div style="max-width:1100px; margin:0 auto">
+      <h2 style="text-align:center">Gallery</h2>
+      <p style="text-align:center; color:var(--muted)">Photos & short clips from our cafe and community events</p>
+
+      <div class="gallery-grid" style="margin-top:16px">
+        <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=60" alt="gallery1" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=60" alt="gallery2" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1542345812-d98b5cd6cf98?auto=format&fit=crop&w=800&q=60" alt="gallery3" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=60" alt="gallery4" onclick="openLightbox(this.src)">
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" style="padding:28px 6px">
+    <div style="max-width:960px; margin:0 auto">
+      <h2 style="text-align:center">What People Say</h2>
+      <div style="display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; justify-content:center">
+        <div class="testimonial" style="width:300px">
+          <p style="margin:0 0 8px">“Chamunda Online helped me submit my pension form quickly. Staff were very kind and explained everything.”</p>
+          <div style="font-weight:700">— Suresh, Kajaradi</div>
+        </div>
+        <div class="testimonial" style="width:300px">
+          <p style="margin:0 0 8px">“Great service. They printed my documents same-day and helped with railway booking.”</p>
+          <div style="font-weight:700">— Meera, Sonari</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="padding:28px 6px">
+    <div style="max-width:900px; margin:0 auto">
+      <h2 style="text-align:center">Frequently Asked Questions</h2>
+      <div style="margin-top:18px">
+        <div class="faq-item card">
+          <strong>Q: How do I submit documents?</strong>
+          <p class="small-muted">A: You can upload in the form or visit the cafe; we will scan & submit on your behalf.</p>
+        </div>
+        <div class="faq-item card">
+          <strong>Q: Will my personal details be safe?</strong>
+          <p class="small-muted">A: Yes — we handle documents securely and delete files upon request. We also send you a confirmation email.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding:28px 6px">
+    <div style="max-width:1100px; margin:0 auto">
+      <h2 style="text-align:center">Contact & Location</h2>
+      <div class="contact" style="margin-top:12px">
+        <div style="flex:1 1 420px">
+          <div class="card">
+            <h3 style="margin-top:0">Chamunda Online</h3>
+            <p class="small-muted">Near Bus Stand, Kajaradi, Ta-Una, Dist. Gir Somnath, Gujarat — 362560</p>
+            <p class="small-muted"><i class="fa fa-phone"></i> +91-95744 56843</p>
+            <p class="small-muted"><i class="fa fa-envelope"></i> <a href="mailto:chamundastaon2022@gmail.com" style="color:var(--accent); text-decoration:none">chamundastaon2022@gmail.com</a></p>
+          </div>
+        </div>
+
+        <div style="flex:1 1 420px">
+          <div class="card">
+            <h4 style="margin-top:0">Send Message</h4>
+            <form id="contactForm" onsubmit="handleContact(event)" style="display:flex; flex-direction:column; gap:8px">
+              <input name="cname" placeholder="Full name" required>
+              <input name="cmobile" placeholder="Mobile number" required>
+              <input name="cemail" placeholder="Email (optional)">
+              <textarea name="cmsg" rows="3" placeholder="Your message" required></textarea>
+              <div style="display:flex; gap:8px">
+                <button type="submit" class="btn" style="flex:1">Send</button>
+                <button type="button" onclick="document.getElementById('contactForm').reset()" style="flex:1; border-radius:10px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)">Reset</button>
+              </div>
+              <div id="contactMsg" style="margin-top:6px; display:none; color:var(--accent); font-weight:700"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:18px"></div>
+<!-- Google Map Embed Responsive -->
+<div style="margin:20px 0;">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d196770.73418323183!2d70.929192!3d20.7811357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be2e39654ab52ab%3A0x20e9898a7850cef8!2sChamunda%20graphics%20%26%20online!5e1!3m2!1sen!2sin!4v1757357271167!5m2!1sen!2sin"  
+    width="100%"  
+    height="400"  
+    style="border:0; border-radius:12px;"  
+    allowfullscreen=""  
+    loading="lazy"  
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+
+
+<!-- Lightbox modal for gallery -->
+<div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; z-index:2000">
+  <img id="lightboxImg" style="max-width:92%; max-height:86%; border-radius:10px" src="">
+  <button onclick="closeLightbox()" style="position:fixed; top:18px; right:18px; background:transparent; border:none; color:#fff; font-size:22px"><i class="fa fa-times"></i></button>
+</div>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  // ============== CAROUSEL ==============
+  (function carouselInit(){
+    const slides = document.querySelectorAll('.slide'); let idx=0;
+    const show = (i)=>{ slides.forEach(s=>s.classList.remove('active')); slides[i].classList.add('active') }
+    document.getElementById('nextSlide').addEventListener('click', ()=>{ idx=(idx+1)%slides.length; show(idx); });
+    document.getElementById('prevSlide').addEventListener('click', ()=>{ idx=(idx-1+slides.length)%slides.length; show(idx); });
+    // auto rotate
+    setInterval(()=>{ idx=(idx+1)%slides.length; show(idx); }, 7000);
+  })();
+
+  // ============== NAV TOGGLE ==============
+  document.getElementById('menuBtn').addEventListener('click', ()=> document.getElementById('navLinks').classList.toggle('show'));
+
+  // ============== LIGHTBOX ==============
+  function openLightbox(src){ document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').style.display = 'flex' }
+  function closeLightbox(){ document.getElementById('lightbox').style.display = 'none' }
+
+  // ============== Quick Request Handler (demo) ==============
+  function handleQuick(e){
+    e.preventDefault();
+    const f = e.target;
+    const name = f.qname?.value || '';
+    const msgEl = document.getElementById('quickMsg');
+    msgEl.style.display = 'block';
+    msgEl.innerText = `Thanks ${name || ''}! We'll contact you soon.`;
+    f.reset();
+    setTimeout(()=> msgEl.style.display='none', 3500);
+  }
+
+  // ============== EmailJS Setup ==============
+  // 1) Sign up at https://www.emailjs.com
+  // 2) Create an email service (e.g., Gmail)
+  // 3) Create a template with fields you want (fullname, email, mobile, project, note, etc.)
+  // 4) Copy Service ID, Template ID, and Public Key and paste below.
+  // 5) In your template use template variables like: {{fullname}}, {{email}}, {{mobile}}, {{project}}, {{note}}
+
+  (function initEmailJS(){
+    try {
+      emailjs.init("REPLACE_WITH_YOUR_EMAILJS_PUBLIC_KEY"); // ← REPLACE
+    } catch(e){ console.warn('EmailJS not initialized yet') }
+  })();
+
+  // Demo form submission using EmailJS
+  function handleDemoSubmit(e){
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Sending...';
+
+    // Prepare form data
+    const fd = new FormData(form);
+    const payload = {};
+    fd.forEach((v,k) => payload[k] = v);
+
+    // NOTE: If you want to send file attachments via EmailJS you need to convert to base64 in JS or use advanced templates.
+    // Here we'll send text fields. Attachments handling can be added later.
+    emailjs.send('REPLACE_WITH_YOUR_SERVICE_ID', 'REPLACE_WITH_YOUR_TEMPLATE_ID', payload)
+      .then(() => {
+        document.getElementById('demoMsg').style.display = 'block';
+        document.getElementById('demoMsg').innerText = '✅ Application sent — we will contact you soon.';
+        form.reset();
+      }, (err) => {
+        document.getElementById('demoMsg').style.display = 'block';
+        document.getElementById('demoMsg').innerText = '❌ Failed to send. Try again or contact via phone.';
+        console.error('EmailJS error', err);
+      })
+      .finally(()=> {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Submit Application';
+      });
+  }
+
+  // Contact form (also EmailJS)
+  function handleContact(e){
+    e.preventDefault();
+    const form = e.target;
+    const fd = new FormData(form); const payload = {};
+    fd.forEach((v,k)=>payload[k]=v);
+    const btn = form.querySelector('button[type="submit"]'); btn.disabled=true; btn.innerText='Sending...';
+    emailjs.send('REPLACE_WITH_YOUR_SERVICE_ID', 'REPLACE_WITH_YOUR_TEMPLATE_ID', payload)
+      .then(()=> {
+        document.getElementById('contactMsg').style.display='block';
+        document.getElementById('contactMsg').innerText='✅ Message sent — thanks!';
+        form.reset();
+      }, ()=> {
+        document.getElementById('contactMsg').style.display='block';
+        document.getElementById('contactMsg').innerText='❌ Could not send. Use phone or email.';
+      })
+      .finally(()=> { btn.disabled=false; btn.innerText='Send' });
+  }
+
+  // Small UX: close mobile nav after link click
+  document.querySelectorAll('.nav-links a').forEach(a=> a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('show')));
+
+</script>
+<a href="https://wa.me/919574456843" target="_blank" 
+   style="position:fixed; bottom:20px; right:20px; background:#25D366; 
+          color:white; font-size:22px; padding:12px 16px; border-radius:50%; 
+          box-shadow:0 4px 10px rgba(0,0,0,0.3); text-decoration:none; z-index:1000;">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+</body>
+</html>
